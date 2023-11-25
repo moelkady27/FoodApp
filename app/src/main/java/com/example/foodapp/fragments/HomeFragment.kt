@@ -149,7 +149,7 @@ class HomeFragment : Fragment() {
             intent.putExtra(CATEGORY_NAME , category.strCategory)
             startActivity(intent)
 
-            Log.e("CATEGORY_NAME is : " , category.strCategory)
+//            Log.e("CATEGORY_NAME is : " , category.strCategory)
         }
     }
 }
