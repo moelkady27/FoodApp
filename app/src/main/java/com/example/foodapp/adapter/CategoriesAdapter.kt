@@ -42,7 +42,7 @@ class CategoriesAdapter() : RecyclerView.Adapter<CategoriesAdapter.MyViewHolder>
         holder.itemView.tvCategoryName.text = x.strCategory
 
         holder.itemView.setOnClickListener {
-            onItemClick.invoke(x)
+            onItemClick?.invoke(x)
         }
     }
 
