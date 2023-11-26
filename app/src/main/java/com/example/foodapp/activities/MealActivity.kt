@@ -77,7 +77,7 @@ class MealActivity : AppCompatActivity() {
                 tv_categoryInfo.text = "Category : ${meal.strCategory}"
                 tv_areaInfo.text = "Area : ${meal.strArea}"
                 tv_instructions.text = meal.strInstructions
-                ytUrl = meal.strYoutube
+                ytUrl = meal.strYoutube!!
             }
 
         })
