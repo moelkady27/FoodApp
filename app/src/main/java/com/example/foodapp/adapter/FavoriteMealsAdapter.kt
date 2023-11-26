@@ -57,6 +57,10 @@ class FavoriteMealsAdapter : RecyclerView.Adapter<FavoriteMealsAdapter.MyViewHol
     }
 
 
+    fun getMealAt(position: Int): Meal {
+        return list[position]
+    }
+
     class MyViewHolder(view : View) : RecyclerView.ViewHolder(view)
 
 }
