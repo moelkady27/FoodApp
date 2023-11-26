@@ -5,14 +5,18 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.get
 import com.bumptech.glide.Glide
 import com.example.foodapp.R
+import com.example.foodapp.db.MealsDatabase
 import com.example.foodapp.fragments.HomeFragment
 import com.example.foodapp.pojo.Meal
 import com.example.foodapp.viewModel.MealViewModel
+import com.example.foodapp.viewModel.MealViewModelFactory
 import kotlinx.android.synthetic.main.activity_meal.btn_add_to_favourites
 import kotlinx.android.synthetic.main.activity_meal.collapsing_toolbar
 import kotlinx.android.synthetic.main.activity_meal.img_meal_detail
@@ -40,11 +44,19 @@ class MealActivity : AppCompatActivity() {
 
         setUpViewWithMealInformation()
 
-        mealMvvm = ViewModelProviders.of(this).get(MealViewModel::class.java)
+//        mealMvvm = ViewModelProviders.of(this).get(MealViewModel::class.java)
+
+//        room
+        val mealsDatabase = MealsDatabase.getInstance(this)
+        val viewModelFactory = MealViewModelFactory(mealsDatabase)
+        mealMvvm = ViewModelProvider(this , viewModelFactory).get(MealViewModel::class.java)
+//
 
         mealMvvm.getMealDetails(mealId)
 
         observeMealDetails()
+
+        onFavoriteClick()
 
         img_youtube.setOnClickListener {
             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(ytUrl)))
@@ -67,6 +79,7 @@ class MealActivity : AppCompatActivity() {
         collapsing_toolbar.title = mealStr
     }
 
+    private var mealToSave: Meal? = null
     private fun observeMealDetails() {
         mealMvvm.observeMealDetailsLiveData().observe(this , object : Observer<Meal>{
             override fun onChanged(value: Meal) {
@@ -74,6 +87,9 @@ class MealActivity : AppCompatActivity() {
                 stopLoading()
 
                 val meal = value
+
+                mealToSave = meal
+
                 tv_categoryInfo.text = "Category : ${meal.strCategory}"
                 tv_areaInfo.text = "Area : ${meal.strArea}"
                 tv_instructions.text = meal.strInstructions
@@ -96,5 +112,14 @@ class MealActivity : AppCompatActivity() {
 
         img_youtube.visibility = View.VISIBLE
 
+    }
+
+    private fun onFavoriteClick() {
+        btn_add_to_favourites.setOnClickListener {
+            mealToSave.let {
+                mealMvvm.insertMeal(it!!)
+                Toast.makeText(this , "Meal Saved" , Toast.LENGTH_LONG).show()
+            }
+        }
     }
 }
