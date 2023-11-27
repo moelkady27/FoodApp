@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
@@ -24,6 +25,7 @@ import com.example.foodapp.pojo.MealsCategory
 import com.example.foodapp.viewModel.HomeViewModel
 import kotlinx.android.synthetic.main.fragment_home.cardView
 import kotlinx.android.synthetic.main.fragment_home.img_random_meal
+import kotlinx.android.synthetic.main.fragment_home.img_search
 import kotlinx.android.synthetic.main.fragment_home.rec_view_meals_popular
 import kotlinx.android.synthetic.main.fragment_home.recycler_view
 
@@ -80,6 +82,8 @@ class HomeFragment : Fragment() {
         observeCategoriesItem()
 
         onCategoryMealClick()
+
+        onSearchItemClick()
     }
 
     private fun observeRandomMeal() {
@@ -153,6 +157,12 @@ class HomeFragment : Fragment() {
             startActivity(intent)
 
             Log.e("CATEGORY_NAME is : " , category.strCategory)
+        }
+    }
+
+    private fun onSearchItemClick() {
+        img_search.setOnClickListener {
+            findNavController().navigate(R.id.action_homeFragment_to_searchFragment)
         }
     }
 }

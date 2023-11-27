@@ -31,4 +31,9 @@ interface ApiService {
     fun getMealsByCategory(
         @Query("c") categoryName: String
     ) : Call<MealCategorysResponse>
+
+    @GET("search.php")
+    fun searchMeals(
+        @Query("s") searchQuery: String
+    ) : Call<RandomMealResponse>
 }
