@@ -54,6 +54,10 @@ class FavoriteMealsAdapter : RecyclerView.Adapter<FavoriteMealsAdapter.MyViewHol
             .into(holder.itemView.img_meal1)
 
         holder.itemView.tv_meal_name.text = x.strMeal
+
+        x.strMeal?.let {
+            holder.itemView.tv_meal_name.text = it
+        }
     }
 
 
